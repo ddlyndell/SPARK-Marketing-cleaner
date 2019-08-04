@@ -1,0 +1,11 @@
+# df is df from a dump cleaned with bidding_dump.py
+
+def get_major_suppliers(df):
+    suppliers = df.groupby('supplier_name', as_index=False).sum().sort_values('contract_sum', ascending = False)
+    suppliers['contract_sum_mln'] = suppliers.contract_sum / 1000000
+    suppliers = suppliers.merge(df[['supplier_name', 'supplier_inn']].drop_duplicates(['supplier_name', 'supplier_inn']))
+    suppliers = suppliers.merge(df.groupby('supplier_name', as_index=False).count()[['supplier_name', 'client_name']])
+    suppliers = suppliers.rename(columns={'client_name': 'number_of_contracts'})
+    return suppliers
+    
+# returns all suppliers with INN sorted by contracts sum in mln rubles, number od contracts awarded is provided
