@@ -17,6 +17,6 @@ def file_transform(file):
     df.columns = ['client_name', 'client_inn', 'contract_sum', 'contract_id', 'okpd', 'contract_name', 'region', 'city',
               'start_date', 'supplier_name', 'supplier_inn', 'auction_type', 'legislation']
     df['hyperlinks'] = hyperlinks
-    df.client_inn = df.client_inn.astype('str')
-    df.supplier_inn = df.supplier_inn.astype('str')
+    for col in ['contract_id', 'client_inn', 'supplier_inn']:
+        df[col] = df[col].astype('str')
     return df
